@@ -152,7 +152,7 @@ export default function DreamGuestbook() {
           name="name"
           value={form.name}
           onChange={handleInputChange}
-          placeholder="이름 (선택)"
+          placeholder="이름"
           maxLength={10}
           className="border border-gray-300 p-2 rounded-lg w-full text-sm"
         />
@@ -161,7 +161,7 @@ export default function DreamGuestbook() {
           name="message"
           value={form.message}
           onChange={handleInputChange}
-          placeholder="한마디 (선택)"
+          placeholder="한마디 (13자가 넘으면 사진이 삭제됩니다)"
           maxLength={100}
           className="border border-gray-300 p-2 rounded-lg w-full text-sm"
         />
