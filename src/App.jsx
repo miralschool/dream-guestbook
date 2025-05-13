@@ -161,7 +161,7 @@ export default function DreamGuestbook() {
           name="message"
           value={form.message}
           onChange={handleInputChange}
-          placeholder="한마디 (13자가 넘으면 사진이 삭제됩니다)"
+          placeholder="한마디 (13자 넘으면 사진 삭제)"
           maxLength={100}
           className="border border-gray-300 p-2 rounded-lg w-full text-sm"
         />
