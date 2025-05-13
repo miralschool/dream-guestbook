@@ -253,7 +253,7 @@ function FloatingEntry({ entry }) {
       className="absolute w-[160px] h-[240px] gap-1 bg-yellow-100 rounded-2xl shadow cursor-move"
       style={{ top: entry.y }}
     >
-      {(entry.image && entry.message.length <= 20) ? (
+      {(entry.image && entry.message.length <= 13) ? (
         <img
           src={entry.image}
           alt="방문자 사진"
