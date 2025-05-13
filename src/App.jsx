@@ -133,9 +133,12 @@ export default function DreamGuestbook() {
 
   return (
     <div ref={containerRef} className="relative w-full h-screen bg-sky-50 overflow-hidden">
-      <div className="absolute top-4 left-4 text-xl font-bold text-gray-700 z-40">
-        2025 성년의 날 기념-너의 꿈을 응원해!
-      </div>
+      <div className="absolute top-4 left-4 z-40 px-4 py-2 bg-white/70 rounded-xl shadow-lg backdrop-blur-sm border border-gray-300">
+  <h1 className="text-base font-semibold text-gray-800 leading-snug">
+    2025 성년의 날 기념<br />
+    <span className="text-blue-600">너의 꿈을 응원해!</span> (포토방명록)
+  </h1>
+</div>
 
       <div className="absolute z-50 flex flex-col items-center bg-white/80 backdrop-blur-md p-4 rounded-xl shadow-lg w-[280px] gap-2" style={{ left: '50%', bottom: '30px', transform: 'translateX(-50%)' }}>
         <img
@@ -263,7 +266,7 @@ function FloatingEntry({ entry }) {
         </div>
       )}
       <div className="text-center text-base font-bold truncate mt-2">{entry.name}</div>
-      {!entry.image && <div className="text-center text-xs truncate mt-1">&nbsp;</div>}
+      <div className="text-center text-xs truncate mt-1">{entry.message}</div>
     </motion.div>
   );
 }
