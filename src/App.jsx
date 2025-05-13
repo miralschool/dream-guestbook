@@ -42,6 +42,7 @@ export default function DreamGuestbook() {
       await delay();
     }
     document.body.removeChild(countdown);
+
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       alert('카메라 접근이 지원되지 않는 브라우저입니다.');
       return;
@@ -60,6 +61,7 @@ export default function DreamGuestbook() {
     video.play();
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
+
     video.onloadedmetadata = () => {
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
@@ -79,7 +81,7 @@ export default function DreamGuestbook() {
 
   const addEntry = (imgSrc) => {
     const name = form.name.trim() || '드림대학';
-    const message = form.message.trim() || '너희 꿈을 응원해';
+    const message = form.message.trim() || '너희의 꿈을 응원해!';
 
     fetch("https://api.sheetbest.com/sheets/130b0844-e47d-4057-99d8-0500fd0fca56", {
       method: "POST",
@@ -131,8 +133,17 @@ export default function DreamGuestbook() {
 
   return (
     <div ref={containerRef} className="relative w-full h-screen bg-sky-50 overflow-hidden">
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center bg-white/80 backdrop-blur-md p-6 rounded-2xl shadow-lg w-[320px] gap-2">
-        <img src="/milal-logo.png" alt="로고" className="h-10 mb-2 object-contain" />
+      <div className="absolute top-4 left-4 text-xl font-bold text-gray-700 z-40">
+        2025 성년의 날 기념-너의 꿈을 응원해!
+      </div>
+
+      <div className="absolute z-50 flex flex-col items-center bg-white/80 backdrop-blur-md p-4 rounded-xl shadow-lg w-[280px] gap-2" style={{ left: '50%', bottom: '30px', transform: 'translateX(-50%)' }}>
+        <img
+          src="/milal-logo.png"
+          alt="로고"
+          className="h-8 mb-2 object-contain cursor-pointer"
+          onClick={() => fileInputRef.current.click()}
+        />
         <input
           type="text"
           name="name"
@@ -140,7 +151,7 @@ export default function DreamGuestbook() {
           onChange={handleInputChange}
           placeholder="이름 (선택)"
           maxLength={10}
-          className="border border-gray-300 p-3 rounded-xl w-full text-sm"
+          className="border border-gray-300 p-2 rounded-lg w-full text-sm"
         />
         <input
           type="text"
@@ -148,21 +159,15 @@ export default function DreamGuestbook() {
           value={form.message}
           onChange={handleInputChange}
           placeholder="한마디 (선택)"
-          maxLength={20}
-          className="border border-gray-300 p-3 rounded-xl w-full text-sm"
+          maxLength={100}
+          className="border border-gray-300 p-2 rounded-lg w-full text-sm"
         />
-        <div className="flex gap-3 mt-2 w-full justify-center">
-          <button
-            onClick={() => fileInputRef.current.click()}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl shadow"
-          >
-            사진 업로드
-          </button>
-          <button
-            onClick={handleTakePhoto}
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl shadow"
-          >
+        <div className="flex gap-2 mt-2 w-full justify-center flex-wrap">
+          <button onClick={handleTakePhoto} className="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg shadow text-sm">
             사진 촬영
+          </button>
+          <button onClick={() => addEntry(null)} className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1.5 rounded-lg shadow text-sm">
+            사진 없이 등록
           </button>
           <input
             type="file"
@@ -242,16 +247,23 @@ function FloatingEntry({ entry }) {
       onDragEnd={handleDragEnd}
       animate={controls}
       onClick={handleClick}
-      className="absolute w-[224px] h-[336px] gap-2 bg-yellow-100 rounded-2xl shadow cursor-move"
+      className="absolute w-[160px] h-[240px] gap-1 bg-yellow-100 rounded-2xl shadow cursor-move"
       style={{ top: entry.y }}
     >
-      <img
-        src={entry.image}
-        alt="방문자 사진"
-        className="w-[196px] h-[252px] object-contain mx-auto mb-1"
-      />
-      <div className="text-center text-lg font-bold truncate mt-2">{entry.name}</div>
-      <div className="text-center text-sm truncate mt-1">{entry.message}</div>
+      {(entry.image && entry.message.length <= 20) ? (
+        <img
+          src={entry.image}
+          alt="방문자 사진"
+          className="mx-auto mb-1"
+          style={{ width: '140px', height: '180px', objectFit: 'contain' }}
+        />
+      ) : (
+        <div className="w-[140px] h-[180px] flex items-center justify-center mx-auto mb-1 text-sm text-gray-700 bg-yellow-100 rounded">
+          {entry.message}
+        </div>
+      )}
+      <div className="text-center text-base font-bold truncate mt-2">{entry.name}</div>
+      {!entry.image && <div className="text-center text-xs truncate mt-1">&nbsp;</div>}
     </motion.div>
   );
 }
