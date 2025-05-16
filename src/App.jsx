@@ -37,7 +37,7 @@ export default function DreamGuestbook() {
     document.body.appendChild(countdown);
 
     const delay = (n) => new Promise((r) => setTimeout(r, 1000));
-    for (const n of [3, 2, 1]) {
+    for (const n of [5, 4, 3, 2, 1]) {
       countdown.textContent = n;
       await delay();
     }
@@ -98,7 +98,7 @@ export default function DreamGuestbook() {
       name,
       message,
       image: imgSrc,
-      y: Math.random() * (window.innerHeight - 240),
+      y: Math.random() * (window.innerHeight - 312),
       fromX,
       toX,
       speed,
@@ -134,13 +134,16 @@ export default function DreamGuestbook() {
   return (
     <div ref={containerRef} className="relative w-full h-screen bg-sky-50 overflow-hidden">
       <div className="absolute top-4 left-4 z-40 px-4 py-2 bg-white/70 rounded-xl shadow-lg backdrop-blur-sm border border-gray-300">
-  <h1 className="text-base font-semibold text-gray-800 leading-snug">
-    2025 성년의 날 기념<br />
-    <span className="text-blue-600">너의 꿈을 응원해!</span> (포토방명록)
-  </h1>
-</div>
+        <h1 className="text-base font-semibold text-gray-800 leading-snug">
+          2025 성년의 날 기념<br />
+          <span className="text-blue-600">너의 꿈을 응원해!</span> (포토방명록)
+        </h1>
+      </div>
 
-      <div className="absolute z-50 flex flex-col items-center bg-white/80 backdrop-blur-md p-4 rounded-xl shadow-lg w-[280px] gap-2" style={{ left: '50%', bottom: '30px', transform: 'translateX(-50%)' }}>
+      <div
+        className="absolute z-50 flex flex-col items-center bg-white/80 backdrop-blur-md p-4 rounded-xl shadow-lg w-[280px] gap-2"
+        style={{ left: '50%', bottom: '30px', transform: 'translateX(-50%)' }}
+      >
         <img
           src="/milal-logo.png"
           alt="로고"
@@ -166,19 +169,19 @@ export default function DreamGuestbook() {
           className="border border-gray-300 p-2 rounded-lg w-full text-sm"
         />
         <div className="flex gap-2 mt-2 w-full justify-center flex-wrap">
-          <button onClick={handleTakePhoto} className="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg shadow text-sm">
+          <button
+            onClick={handleTakePhoto}
+            className="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg shadow text-sm"
+          >
             사진 촬영
           </button>
-          <button onClick={() => addEntry(null)} className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1.5 rounded-lg shadow text-sm">
+          <button
+            onClick={() => addEntry(null)}
+            className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1.5 rounded-lg shadow text-sm"
+          >
             사진 없이 등록
           </button>
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            onChange={handleImageUpload}
-            hidden
-          />
+          <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageUpload} hidden />
         </div>
       </div>
 
@@ -250,23 +253,31 @@ function FloatingEntry({ entry }) {
       onDragEnd={handleDragEnd}
       animate={controls}
       onClick={handleClick}
-      className="absolute w-[160px] h-[240px] gap-1 bg-yellow-100 rounded-2xl shadow cursor-move"
-      style={{ top: entry.y }}
+      className="absolute gap-1 bg-yellow-100 rounded-2xl shadow cursor-move"
+      style={{ top: entry.y, width: 208, height: 312 }}
     >
       {(entry.image && entry.message.length <= 13) ? (
         <img
           src={entry.image}
           alt="방문자 사진"
           className="mx-auto mb-1"
-          style={{ width: '140px', height: '180px', objectFit: 'contain' }}
+          style={{ width: 182, height: 234, objectFit: 'contain' }}
         />
       ) : (
-        <div className="w-[140px] h-[180px] flex items-center justify-center mx-auto mb-1 text-sm text-gray-700 bg-yellow-100 rounded">
+        <div
+          className="mx-auto mb-1 flex items-center justify-center text-gray-700 bg-yellow-100 rounded"
+          style={{ width: 182, height: 234, fontSize: '1.3rem', lineHeight: 1.3, textAlign: 'center', padding: '0 6px' }}
+        >
           {entry.message}
         </div>
       )}
-      <div className="text-center text-base font-bold truncate mt-2">{entry.name}</div>
-      <div className="text-center text-xs truncate mt-1">{entry.message}</div>
+      <div className="text-center text-xl font-bold truncate mt-2">{entry.name}</div>
+      <div
+        className="text-center truncate mt-1"
+        style={{ fontSize: '1.1rem', lineHeight: 1.3 }}
+      >
+        {entry.message}
+      </div>
     </motion.div>
   );
 }
